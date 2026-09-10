@@ -122,20 +122,22 @@ The site is now live at **http://127.0.0.1:5173**
 
 ## 5. API List (exactly 6 endpoints)
 
-| # | Method | Endpoint | Auth | Description |
-|---|--------|----------|------|-------------|
-| 1 | POST | `/api/register/` | Public | Create a new user |
-| 2 | POST | `/api/login/` | Public | Authenticate, returns JWT `access` + `refresh` tokens |
-| 3 | GET | `/api/products/` | Public | List all products |
-| 4 | GET | `/api/products/<id>/` | Public | Retrieve one product |
-| 5 | GET / POST / DELETE | `/api/cart/` | **JWT required** | View / add-to / remove-from the logged-in user's cart |
-| 6 | GET / POST | `/api/orders/` | **JWT required** | View orders / place an order |
+| # | Method              | Endpoint                | Auth                   | Description                                              |
+| - | ------------------- | ----------------------- | ---------------------- | -------------------------------------------------------- |
+| 1 | POST                | `/api/register/`      | Public                 | Create a new user                                        |
+| 2 | POST                | `/api/login/`         | Public                 | Authenticate, returns JWT`access` + `refresh` tokens |
+| 3 | GET                 | `/api/products/`      | Public                 | List all products                                        |
+| 4 | GET                 | `/api/products/<id>/` | Public                 | Retrieve one product                                     |
+| 5 | GET / POST / DELETE | `/api/cart/`          | **JWT required** | View / add-to / remove-from the logged-in user's cart    |
+| 6 | GET / POST          | `/api/orders/`        | **JWT required** | View orders / place an order                             |
 
 **Cart details**
+
 - `POST /api/cart/` body: `{ "product_id": 1, "quantity": 2 }` — adds the item, or increases quantity if it's already in the cart.
 - `DELETE /api/cart/` body: `{ "product_id": 1 }` — removes that product from the cart.
 
 **Orders details**
+
 - `POST /api/orders/` body: `{ "product_id": 1, "quantity": 2 }` — orders that single product directly, **or**
 - `POST /api/orders/` with an empty body `{}` — checks out everything currently in the cart (one `Order` row is created per cart item, `total_price` = `price × quantity`, stock is decremented, and the cart is emptied).
 

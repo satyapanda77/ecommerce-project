@@ -17,6 +17,8 @@ urlpatterns = [
     path('api/cart/', include('cart.urls')),
     # API 6 - orders
     path('api/orders/', include('orders.urls')),
+    # API 7 - notifications
+    path('api/notifications/', include('notifications.urls')),
 ]
 
 if settings.DEBUG:

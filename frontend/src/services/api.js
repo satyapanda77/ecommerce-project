@@ -6,10 +6,22 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0
 export const ENDPOINTS = {
   register: '/register/',
   login: '/login/',
+  profile: '/profile/',
+  changePassword: '/change-password/',
   products: '/products/',
+  categories: '/products/categories/',
   productDetail: (id) => `/products/${id}/`,
   cart: '/cart/',
   orders: '/orders/',
+  orderDetail: (id) => `/orders/${id}/`,
+  cancelOrder: (id) => `/orders/${id}/cancel/`,
+  availableDeliveries: '/orders/available-deliveries/',
+  myDeliveries: '/orders/my-deliveries/',
+  acceptDelivery: (id) => `/orders/${id}/accept/`,
+  updateDeliveryStatus: (id) => `/orders/${id}/status/`,
+  notifications: '/notifications/',
+  notificationRead: (id) => `/notifications/${id}/read/`,
+  notificationReadAll: '/notifications/read-all/',
 };
 
 const ACCESS_TOKEN_KEY = 'minishop_access_token';

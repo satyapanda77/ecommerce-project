@@ -1,9 +1,18 @@
+import logging
 from django.contrib.auth.signals import user_logged_in
-from django.core.mail import send_mail
+from django.dispatch import receiver
+from .email_service import send_login_security_email
 
-def send_welcome_email(sender, user, request, **kwargs):
-    subject = "Welcome to Our Store!"
-    message = f"Hello {user.username},\n\nThank you for logging in. We’re excited to have you back!"
-    send_mail(subject, message, "pandasatya232@gmail.com", [user.email])
+logger = logging.getLogger(__name__)
 
-user_logged_in.connect(send_welcome_email)
+@receiver(user_logged_in)
+def on_user_logged_in(sender, request, user, **kwargs):
+    try:
+        ip = None
+        ua = None
+        if request:
+            ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
+            ua = request.META.get('HTTP_USER_AGENT', '')
+        send_login_security_email(user, ip_address=ip, user_agent=ua)
+    except Exception as e:
+        logger.warning(f'Error sending login signal email: {e}')
