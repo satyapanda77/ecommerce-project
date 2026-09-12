@@ -37,10 +37,29 @@ export function CartProvider({ children }) {
     await fetchCart();
   };
 
+  // Update quantity of an existing cart item (uses PATCH /api/cart/)
+  const updateCartQuantity = async (productId, quantity) => {
+    if (quantity <= 0) {
+      await removeFromCart(productId);
+      return;
+    }
+    await api.patch(ENDPOINTS.cart, { product_id: productId, quantity });
+    await fetchCart();
+  };
+
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const total = items.reduce((sum, item) => sum + Number(item.subtotal), 0);
 
-  const value = { items, loading, itemCount, total, fetchCart, addToCart, removeFromCart };
+  const value = {
+    items,
+    loading,
+    itemCount,
+    total,
+    fetchCart,
+    addToCart,
+    removeFromCart,
+    updateCartQuantity,
+  };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

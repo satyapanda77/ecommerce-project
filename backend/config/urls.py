@@ -19,6 +19,8 @@ urlpatterns = [
     path('api/orders/', include('orders.urls')),
     # API 7 - notifications
     path('api/notifications/', include('notifications.urls')),
+    # API 8 - wishlist
+    path('api/wishlist/', include('wishlist.urls')),
 ]
 
 if settings.DEBUG:

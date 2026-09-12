@@ -19,9 +19,13 @@ export const ENDPOINTS = {
   myDeliveries: '/orders/my-deliveries/',
   acceptDelivery: (id) => `/orders/${id}/accept/`,
   updateDeliveryStatus: (id) => `/orders/${id}/status/`,
+  deliveryEarnings: '/orders/earnings/',
   notifications: '/notifications/',
   notificationRead: (id) => `/notifications/${id}/read/`,
   notificationReadAll: '/notifications/read-all/',
+  wishlist: '/wishlist/',
+  wishlistIds: '/wishlist/ids/',
+  wishlistRemove: (productId) => `/wishlist/${productId}/`,
 };
 
 const ACCESS_TOKEN_KEY = 'minishop_access_token';

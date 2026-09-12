@@ -273,3 +273,36 @@ class UpdateDeliveryStatusView(APIView):
             'order': OrderSerializer(order).data,
         })
 
+
+class DeliveryEarningsView(APIView):
+    """
+    GET /api/orders/earnings/ -> Summary of delivery partner's earnings and stats.
+    Commission is a flat 8% of order value per delivered order.
+    """
+    permission_classes = [IsAuthenticated, IsDeliveryPartner]
+
+    COMMISSION_RATE = 0.08
+
+    def get(self, request):
+        completed = Order.objects.filter(
+            delivery_partner=request.user,
+            status__in=[Order.Status.DELIVERED, Order.Status.COMPLETED],
+        )
+        active = Order.objects.filter(
+            delivery_partner=request.user,
+            status__in=[
+                Order.Status.CONFIRMED,
+                Order.Status.PREPARING,
+                Order.Status.PICKED_UP,
+                Order.Status.OUT_FOR_DELIVERY,
+            ],
+        )
+        total_earned = sum(float(o.total_price) * self.COMMISSION_RATE for o in completed)
+        return Response({
+            'completed_count': completed.count(),
+            'active_count': active.count(),
+            'total_earned': round(total_earned, 2),
+            'commission_rate': self.COMMISSION_RATE,
+        })
+
+
